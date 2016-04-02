@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using Consolidate;
 using Microsoft.VisualStudio.Shell;
+using NuGet.VisualStudio;
 
 namespace NugetConsolidate
 {
@@ -39,7 +40,7 @@ namespace NugetConsolidate
 
             _package = package;
 
-            var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            var commandService = ServiceProvider.GetService(typeof (IMenuCommandService)) as OleMenuCommandService;
             if (commandService == null) return;
             var menuCommandId = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(MenuItemCallback, menuCommandId);
@@ -49,11 +50,7 @@ namespace NugetConsolidate
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static ConsolidateCommand Instance
-        {
-            get;
-            private set;
-        }
+        public static ConsolidateCommand Instance { get; private set; }
 
         /// <summary>
         /// Gets the service provider from the owner package.
@@ -79,6 +76,11 @@ namespace NugetConsolidate
         private void MenuItemCallback(object sender, EventArgs e)
         {
             Consolidator.Instance.Execute();
+        }
+
+        public void RegisterNugetServices(IVsPackageInstallerServices installerServices)
+        {
+            Consolidator.Instance.Initialize(installerServices);
         }
     }
 }

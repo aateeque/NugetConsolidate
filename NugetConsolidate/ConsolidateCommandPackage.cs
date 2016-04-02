@@ -6,7 +6,9 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
+using NuGet.VisualStudio;
 
 namespace NugetConsolidate
 {
@@ -60,6 +62,12 @@ namespace NugetConsolidate
         {
             ConsolidateCommand.Initialize(this);
             base.Initialize();
+
+
+            var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
+            IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+
+            ConsolidateCommand.Instance.RegisterNugetServices(installerServices);
         }
 
         #endregion
