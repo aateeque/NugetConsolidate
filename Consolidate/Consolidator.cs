@@ -37,7 +37,7 @@ namespace Consolidate
             var installedPackages = _installerServices.GetInstalledPackages();
 
            var pkgsToConsolidate = installedPackages.GroupBy(pkg => pkg.Id, pkg => pkg.VersionString, StringComparer.OrdinalIgnoreCase)
-                             .Where(g => g.Any())
+                             .Where(g => g.Count() > 1)
                              .Select(p => Tuple.Create(p.Key, p.Max()));
             if (pkgsToConsolidate.Any())
             {
