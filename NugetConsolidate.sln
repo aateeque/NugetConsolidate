@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetConsolidate", "NugetConsolidate\NugetConsolidate.csproj", "{C2953D8E-F353-43BD-8BA2-F43449B32577}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consolidate", "Consolidate\Consolidate.csproj", "{5E38C3ED-2F95-4B2E-AFDC-A9C7DFCE9356}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consolidate.Tests", "Consolidate.Tests\Consolidate.Tests.csproj", "{7BADC844-E0B6-4E5A-8302-4D1C99175C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5E38C3ED-2F95-4B2E-AFDC-A9C7DFCE9356}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E38C3ED-2F95-4B2E-AFDC-A9C7DFCE9356}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E38C3ED-2F95-4B2E-AFDC-A9C7DFCE9356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BADC844-E0B6-4E5A-8302-4D1C99175C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BADC844-E0B6-4E5A-8302-4D1C99175C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BADC844-E0B6-4E5A-8302-4D1C99175C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BADC844-E0B6-4E5A-8302-4D1C99175C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

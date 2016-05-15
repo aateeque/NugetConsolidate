@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio;
 
 namespace NugetConsolidate
@@ -54,14 +55,20 @@ namespace NugetConsolidate
         /// </summary>
         protected override void Initialize()
         {
-            ConsolidateCommand.Initialize(this);
             base.Initialize();
+            ConsolidateCommand.Initialize(this);
 
 
             var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
-            IVsPackageInstallerServices installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+            var installerServices = componentModel.GetService<IVsPackageInstallerServices>();
+            var packageInstaller = componentModel.GetService<IVsPackageInstaller>();
+            var packageUninstaller = componentModel.GetService<IVsPackageUninstaller>();
 
-            ConsolidateCommand.Instance.RegisterNugetServices(installerServices);
+            var statusBarSvc = (IVsStatusbar) ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar));
+
+            ConsolidateCommand.Instance.RegisterNugetServices(installerServices, packageInstaller, packageUninstaller);
+
+            ConsolidateCommand.Instance.RegisterVisualStudioServices(statusBarSvc);
         }
 
         #endregion

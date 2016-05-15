@@ -2,12 +2,13 @@
 using System.ComponentModel.Design;
 using Consolidate;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using NuGet.VisualStudio;
 
 namespace NugetConsolidate
 {
     /// <summary>
-    /// Command handler
+    /// Command handlers
     /// </summary>
     internal sealed class ConsolidateCommand
     {
@@ -25,6 +26,8 @@ namespace NugetConsolidate
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly Package _package;
+
+        private IVsStatusbar _statusBarSvc;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsolidateCommand"/> class.
@@ -45,6 +48,8 @@ namespace NugetConsolidate
             var menuCommandId = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(MenuItemCallback, menuCommandId);
             commandService.AddCommand(menuItem);
+
+            Consolidator.Instance.NeedsConsolidating += OnNeedsConsolidating;
         }
 
         /// <summary>
@@ -66,6 +71,16 @@ namespace NugetConsolidate
             Instance = new ConsolidateCommand(package);
         }
 
+        public void RegisterVisualStudioServices(IVsStatusbar statusBarSvc)
+        {
+            _statusBarSvc = statusBarSvc;
+        }
+
+        public void RegisterNugetServices(IVsPackageInstallerServices installerServices, IVsPackageInstaller packageInstaller, IVsPackageUninstaller packageUninstaller)
+        {
+            Consolidator.Instance.RegisterNugetServices(installerServices, packageInstaller, packageUninstaller);
+        }
+
         /// <summary>
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
@@ -78,9 +93,9 @@ namespace NugetConsolidate
             Consolidator.Instance.Execute();
         }
 
-        public void RegisterNugetServices(IVsPackageInstallerServices installerServices)
+        private void OnNeedsConsolidating(object sender, EventArgs eventArgs)
         {
-            Consolidator.Instance.Initialize(installerServices);
+            _statusBarSvc.SetColorText("Consolidate nuget packages", 123, 98);
         }
     }
 }
